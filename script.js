@@ -119,9 +119,9 @@ async function displayGameInfo(gameId) {
     // ✅ Update Info Box Content
     infoContent.innerHTML = `
         <div class="info-content">
+            <h2>${gameName}</h2>
             <img src="${gameImage}" alt="${gameName}">
             <div class="info-details">
-                <h2>${gameName}</h2>
                 <p><strong>Released:</strong> ${releasedDate}</p>
                 <p><strong>Rating:</strong> ${rating}</p>
                 <p><strong>Genres:</strong> ${genres}</p>

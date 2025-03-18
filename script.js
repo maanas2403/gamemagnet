@@ -67,8 +67,7 @@ async function displayRecommendations(gameId) {
         <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
         <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
     `;
-    selectedContainer.classList.remove('hidden');
-    selectedContainer.addEventListener('click', () => displayGameInfo(selectedGame)); // ✅ Clicking on selected game
+    selectedContainer.style.display = 'block'; // ✅ Show the selected game
 
     // Display Recommended Games
     const recommendations = await fetchRecommendedGames(selectedGame);
@@ -82,14 +81,12 @@ async function displayRecommendations(gameId) {
             <img src="${game.background_image}" alt="${game.name}">
             <h3>${game.name}</h3>
         `;
-        gameElement.addEventListener('click', () => displayGameInfo(game)); // ✅ Clicking on recommended games
+        gameElement.addEventListener('click', () => displayGameInfo(game));
         container.appendChild(gameElement);
     });
 }
 
-// ✅ Display Game Info in the Information Box
-// ✅ Display Game Info in the Information Box
-// ✅ Display Game Info in the Information Box
+// ✅ Display Game Info
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
@@ -106,14 +103,14 @@ function displayGameInfo(game) {
                 <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
-        <button id="close-info">✖</button> <!-- ✅ Moved inside dynamically -->
     `;
 
-    infoBox.classList.remove('hidden'); // Show info box
-
-    // ✅ Add event listener dynamically after content is set
-    document.getElementById('close-info').addEventListener('click', function () {
-        infoBox.classList.add('hidden');
-    });
+    infoBox.style.display = 'block'; // ✅ Show info box
 }
 
+// ✅ Close Info Box with Event Delegation
+document.body.addEventListener('click', function(event) {
+    if (event.target.id === 'close-info') {
+        document.getElementById('game-info').style.display = 'none';
+    }
+});

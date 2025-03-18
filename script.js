@@ -135,11 +135,16 @@ async function displayGameInfo(gameId) {
     const infoContent = document.getElementById('info-content');
 
     // ✅ Provide fallback values if data is missing
-    const gameImage = game.background_image || 'default-image.jpg'; 
+    const gameImage = game.background_image || 'default-image.jpg';
+    const gameImage2 = game.background_image_additional || 'default-image.jpg';
     const gameName = game.name || 'Unknown Title';
     const releasedDate = game.released || 'Unknown';
     const rating = game.rating || 'N/A';
+    const metacritic = game.metacritic || 'N/A';
     const genres = game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A';
+    const tags = game.tags ? game.tags.map(g => g.name).join(', ') : 'N/A';
+    const publishers = game.publishers ? game.publishers.map(g => g.name).join(', ') : 'N/A';
+    const developers = game.developers ? game.developers.map(g => g.name).join(', ') : 'N/A';
     const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
     const description = game.description_raw || 'No description available.';
 
@@ -151,9 +156,19 @@ async function displayGameInfo(gameId) {
             <img src="${gameImage}" alt="${gameName}">
                 <p><strong>Released:</strong> ${releasedDate}</p>
                 <p><strong>Rating:</strong> ${rating}</p>
+                <p><strong>Metacritic:</strong> ${metacritic}</p>
                 <p><strong>Genres:</strong> ${genres}</p>
+                <p><strong>Tags:</strong> ${tags}</p>
                 <p><strong>Platforms:</strong> ${platforms}</p>
+                <p><strong>Publishers:</strong> ${publishers}</p>
+                <p><strong>Developers:</strong> ${developers}</p>
                 <p><strong>Description:</strong> ${description}</p>
+                <p><strong>Website:</strong> 
+                    ${game.website 
+                        ? `<a href="${game.website}" target="_blank" class="game-link">Official Site</a>` 
+                        : 'N/A'}
+                </p>
+                <img src="${gameImage2}" alt="${gameName}">
             </div>
         </div>
         <button id="close-info">✖</button>  <!-- Close Button -->

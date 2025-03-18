@@ -1,7 +1,7 @@
 // Replace The Movie DB API logic with GiantBomb API logic
 const API_KEY = 'f348ad92bad3b8147d5e6eea66f5d1de7555532f';
 const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-const BASE_URL = `${PROXY_URL}https://www.giantbomb.com/api/search/?api_key=${API_KEY}&format=json&query=Grand%20theft%20auto&resources=game`;
+const BASE_URL = 'https://www.giantbomb.com/api';
 
 async function fetchGameDetails(gameName) {
     const response = await fetch(`${BASE_URL}/search/?api_key=${API_KEY}&format=json&query=${gameName}&resources=game`);

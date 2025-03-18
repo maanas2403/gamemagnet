@@ -125,7 +125,7 @@ async function displayRecommendations(gameId) {
 // ✅ Display Game Info in the Information Box
 async function displayGameInfo(gameId) {
     const game = await fetchGameDetails(gameId);
-
+    
     if (!game) {
         console.error("Game details not found.");
         return;
@@ -134,56 +134,52 @@ async function displayGameInfo(gameId) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
-    // ✅ Collect Images: background_image + short_screenshots
-    let images = [game.background_image]; // Start with main background image
-    if (game.short_screenshots && game.short_screenshots.length > 0) {
-        images.push(...game.short_screenshots.map(s => s.image));
+    // ✅ Get all images (background + screenshots)
+    const images = game.short_screenshots ? game.short_screenshots.map(s => s.image) : [];
+    if (game.background_image) {
+        images.unshift(game.background_image); // ✅ Add main image first
     }
 
-    let currentIndex = 0; // Track which image is currently shown
+    let currentIndex = 0; // ✅ Track which image is displayed
 
-    // ✅ Function to Update Image
-    function updateImage(index) {
-        document.getElementById('carousel-image').src = images[index];
+    // ✅ Function to update the displayed image
+    function updateImage() {
+        document.getElementById('carousel-image').src = images[currentIndex];
     }
 
-    // ✅ Setup Image Navigation
-    function showNextImage() {
-        currentIndex = (currentIndex + 1) % images.length; // Loop forward
-        updateImage(currentIndex);
-    }
-
-    function showPrevImage() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length; // Loop backward
-        updateImage(currentIndex);
-    }
-
-    // ✅ Info Box Content (Including Image Carousel)
     infoContent.innerHTML = `
         <div class="info-content">
             <div class="image-carousel">
-                <button id="prev-image">❮</button>
-                <img id="carousel-image" src="${images[0]}" alt="${game.name}">
-                <button id="next-image">❯</button>
+                <button id="prev-image">⬅</button>
+                <img id="carousel-image" src="${images[0]}" alt="Game Screenshot">
+                <button id="next-image">➡</button>
             </div>
             <div class="info-details">
                 <h2>${game.name}</h2>
                 <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
                 <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
-                <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ') || 'N/A'}</p>
-                <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ') || 'N/A'}</p>
+                <p><strong>Genres:</strong> ${game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A'}</p>
+                <p><strong>Platforms:</strong> ${game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A'}</p>
                 <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
         <button id="close-info">✖</button>
     `;
 
-    // ✅ Display the Info Box
     infoBox.style.display = 'flex';
 
-    // ✅ Attach Event Listeners
-    document.getElementById('next-image').addEventListener('click', showNextImage);
-    document.getElementById('prev-image').addEventListener('click', showPrevImage);
+    // ✅ Attach Event Listeners for Navigation
+    document.getElementById('prev-image').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length; // Loop backwards
+        updateImage();
+    });
+
+    document.getElementById('next-image').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length; // Loop forward
+        updateImage();
+    });
+
+    // ✅ Close button functionality
     document.getElementById('close-info').addEventListener('click', function () {
         infoBox.style.display = 'none';
     });

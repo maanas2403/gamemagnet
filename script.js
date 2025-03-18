@@ -60,16 +60,12 @@ async function fetchRecommendedGames(selectedGame) {
 async function displayRecommendations(gameId) {
     const selectedGame = await fetchGameDetails(gameId);
 
-    // ✅ Show Selected Game with Full Details
+    // ✅ Show Selected Game (Only Image & Title, No Details)
     const selectedContainer = document.getElementById('selected-game');
     selectedContainer.innerHTML = `
         <div class="game" onclick="displayGameInfo(${gameId})">
             <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
             <h2>${selectedGame.name}</h2>
-            <p><strong>Released:</strong> ${selectedGame.released}</p>
-            <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
-            <p><strong>Genres:</strong> ${selectedGame.genres.map(g => g.name).join(', ')}</p>
-            <p><strong>Platforms:</strong> ${selectedGame.platforms.map(p => p.platform.name).join(', ')}</p>
         </div>
     `;
     selectedContainer.style.display = 'block';
@@ -94,7 +90,9 @@ async function displayRecommendations(gameId) {
 
 // ✅ Display Game Info
 // ✅ Display Game Info in the Information Box
-function displayGameInfo(game) {
+async function displayGameInfo(gameId) {
+    const game = await fetchGameDetails(gameId); // ✅ Fetch game details dynamically
+
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
@@ -115,7 +113,7 @@ function displayGameInfo(game) {
 
     infoBox.style.display = 'flex';
 
-    // ✅ Add Event Listener Dynamically for Close Button
+    // ✅ Attach Close Button Dynamically
     document.getElementById('close-info').addEventListener('click', function() {
         infoBox.style.display = 'none';
     });

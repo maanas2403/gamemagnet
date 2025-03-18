@@ -2,7 +2,9 @@
 
 body {
     font-family: 'Press Start 2P', cursive;
-    background-color: #0a0a0a;
+    background: url("./HD-wallpaper-league-of-legends-collage-game-riot-games-video-game.jpg") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: white;
     text-align: center;
 }

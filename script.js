@@ -114,9 +114,10 @@ async function displayGameInfo(gameId) {
     infoBox.style.display = 'flex';
 
     // ✅ Attach Close Button Dynamically
-    document.getElementById('close-info').addEventListener('click', function() {
-        infoBox.style.display = 'none';
-    });
+    
 }
+document.getElementById('close-info').addEventListener('click', function() {
+        document.getElementById('game-info').style.display = 'none';
+    });
 
 

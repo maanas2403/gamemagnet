@@ -89,6 +89,7 @@ async function displayRecommendations(gameId) {
 
 // ✅ Display Game Info in the Information Box
 // ✅ Display Game Info in the Information Box
+// ✅ Display Game Info in the Information Box
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
@@ -105,12 +106,14 @@ function displayGameInfo(game) {
                 <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
+        <button id="close-info">✖</button> <!-- ✅ Moved inside dynamically -->
     `;
 
     infoBox.classList.remove('hidden'); // Show info box
+
+    // ✅ Add event listener dynamically after content is set
+    document.getElementById('close-info').addEventListener('click', function () {
+        infoBox.classList.add('hidden');
+    });
 }
 
-// ✅ Close Info Box
-document.getElementById('close-info').addEventListener('click', function() {
-    document.getElementById('game-info').classList.add('hidden');
-});

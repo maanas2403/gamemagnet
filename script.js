@@ -93,23 +93,33 @@ async function displayRecommendations(gameId) {
 async function displayGameInfo(gameId) {
     const game = await fetchGameDetails(gameId);
 
+    if (!game) {
+        console.error("Game details not found.");
+        return;
+    }
+
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
-    // ✅ Fix: Check if `genres` and `platforms` exist before mapping
+    // ✅ Fix: Provide fallback values if data is missing
+    const gameImage = game.background_image ? game.background_image : 'default-image.jpg'; 
+    const gameName = game.name ? game.name : 'Unknown Title';
+    const releasedDate = game.released ? game.released : 'Unknown';
+    const rating = game.rating ? game.rating : 'N/A';
     const genres = game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A';
     const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
+    const description = game.description_raw ? game.description_raw : 'No description available.';
 
     infoContent.innerHTML = `
         <div class="info-content">
-            <img src="${game.background_image}" alt="${game.name}">
+            <img src="${gameImage}" alt="${gameName}">
             <div class="info-details">
-                <h2>${game.name}</h2>
-                <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
-                <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
+                <h2>${gameName}</h2>
+                <p><strong>Released:</strong> ${releasedDate}</p>
+                <p><strong>Rating:</strong> ${rating}</p>
                 <p><strong>Genres:</strong> ${genres}</p>
                 <p><strong>Platforms:</strong> ${platforms}</p>
-                <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
+                <p><strong>Description:</strong> ${description}</p>
             </div>
         </div>
         <button id="close-info">✖</button>
@@ -118,10 +128,11 @@ async function displayGameInfo(gameId) {
     infoBox.style.display = 'flex';
 
     // ✅ Attach Close Button Dynamically
-    document.getElementById('close-info').addEventListener('click', function() {
+    document.getElementById('close-info').addEventListener('click', function () {
         infoBox.style.display = 'none';
     });
 }
+
 
 
 

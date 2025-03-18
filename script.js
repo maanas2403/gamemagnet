@@ -87,6 +87,7 @@ async function displayRecommendations(gameId) {
 }
 
 // ✅ Display Game Info
+// ✅ Display Game Info in the Information Box
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
@@ -105,12 +106,11 @@ function displayGameInfo(game) {
         </div>
     `;
 
-    infoBox.style.display = 'block'; // ✅ Show info box
+    infoBox.classList.remove('hidden'); // Show info box
 }
 
-// ✅ Close Info Box with Event Delegation
-document.body.addEventListener('click', function(event) {
-    if (event.target.id === 'close-info') {
-        document.getElementById('game-info').style.display = 'none';
-    }
+// ✅ Close Info Box
+document.getElementById('close-info').addEventListener('click', function() {
+    document.getElementById('game-info').classList.add('hidden');
 });
+

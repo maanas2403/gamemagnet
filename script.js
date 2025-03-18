@@ -50,37 +50,30 @@ async function fetchRecommendedGames(selectedGame) {
             seriesGames = seriesData.results;
         }
 
-        // ✅ Step 2: Fetch Games by Creators
-        let creatorGames = [];
-        if (selectedGame.creators && selectedGame.creators.length > 0) {
-            console.log("Creators Found:", selectedGame.creators);
+        // ✅ Step 2: Fetch Games by Tags (If Available)
+        let tagGames = [];
+        if (selectedGame.tags && selectedGame.tags.length > 0) {
+            console.log("Tags Found:", selectedGame.tags);
 
-            for (let creator of selectedGame.creators) {
-                let creatorResponse = await fetch(`${BASE_URL}/creators/${creator.id}/games?key=${API_KEY}`);
+            for (let tag of selectedGame.tags.slice(0, 3)) { // Limit to 3 tags to avoid excessive API calls
+                let tagResponse = await fetch(`${BASE_URL}/games?key=${API_KEY}&tags=${tag.id}`);
                 
-                if (creatorResponse.ok) {
-                    let creatorData = await creatorResponse.json();
-                    creatorGames.push(...creatorData.results);
+                if (tagResponse.ok) {
+                    let tagData = await tagResponse.json();
+                    tagGames.push(...tagData.results);
                 } else {
-                    console.warn(`Failed to fetch games for creator ID: ${creator.id}`);
+                    console.warn(`Failed to fetch games for tag ID: ${tag.id}`);
                 }
             }
         } else {
-            console.warn("No creators found for this game.");
+            console.warn("No tags found for this game.");
         }
 
-        // ✅ Step 3: Filter creator-based games by matching genre
-        const selectedGenres = selectedGame.genres.map(g => g.id);
-        creatorGames = creatorGames.filter(game =>
-            game.id !== selectedGame.id && // Exclude the selected game
-            game.genres.some(g => selectedGenres.includes(g.id)) // Must have at least one common genre
-        );
-
-        // ✅ Step 4: Combine series games + filtered creator games & remove duplicates
-        let recommendedGames = [...seriesGames, ...creatorGames];
+        // ✅ Step 3: Remove Duplicates (Series + Tag-Based Games)
+        let recommendedGames = [...seriesGames, ...tagGames];
         recommendedGames = [...new Map(recommendedGames.map(game => [game.id, game])).values()];
 
-        console.log("Recommended Games List:", recommendedGames);
+        console.log("Final Recommended Games List:", recommendedGames);
         return recommendedGames;
 
     } catch (error) {

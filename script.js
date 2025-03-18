@@ -102,14 +102,15 @@ async function displayGameInfo(gameId) {
     const infoContent = document.getElementById('info-content');
 
     // ✅ Fix: Provide fallback values if data is missing
-    const gameImage = game.background_image ? game.background_image : 'default-image.jpg'; 
-    const gameName = game.name ? game.name : 'Unknown Title';
-    const releasedDate = game.released ? game.released : 'Unknown';
-    const rating = game.rating ? game.rating : 'N/A';
+    const gameImage = game.background_image || 'default-image.jpg'; 
+    const gameName = game.name || 'Unknown Title';
+    const releasedDate = game.released || 'Unknown';
+    const rating = game.rating || 'N/A';
     const genres = game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A';
     const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
-    const description = game.description_raw ? game.description_raw : 'No description available.';
+    const description = game.description_raw || 'No description available.';
 
+    // ✅ Update Info Box with Clicked Game Details
     infoContent.innerHTML = `
         <div class="info-content">
             <img src="${gameImage}" alt="${gameName}">
@@ -132,6 +133,7 @@ async function displayGameInfo(gameId) {
         infoBox.style.display = 'none';
     });
 }
+
 
 
 

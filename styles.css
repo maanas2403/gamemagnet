@@ -56,7 +56,14 @@ body {
 #selected-game {
     display: flex;
     justify-content: center;  /* Center horizontally */
-     margin: 20px auto;
+    margin: 20px auto;
+    width: 100%; /* Ensures the container spans full width */
+}
+
+/* Ensure the selected game is properly centered */
+#selected-game .game {
+    width: 300px;  /* Set a fixed width */
+    max-width: 100%; /* Ensure responsiveness */
 }
 /* Game Grid */
 .game-grid {

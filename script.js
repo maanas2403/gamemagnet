@@ -63,10 +63,10 @@ async function displayRecommendations(gameId) {
     // ✅ Show Selected Game (Only Image & Title, No Details)
     const selectedContainer = document.getElementById('selected-game');
     selectedContainer.innerHTML = 
-        <div class="game" onclick="displayGameInfo(${gameId})">
+        '<div class="game" onclick="displayGameInfo(${gameId})">
             <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
             <h2>${selectedGame.name}</h2>
-        </div>
+        </div>'
     ;
     selectedContainer.style.display = 'block';
 

@@ -111,6 +111,6 @@ function displayGameInfo(game) {
 
 // ✅ Close Info Box
 document.getElementById('close-info').addEventListener('click', function() {
-    document.getElementById('game-info').classList.add('hidden');
+    document.getElementById('game-info').style.display = 'none';
 });
 

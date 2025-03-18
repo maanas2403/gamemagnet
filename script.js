@@ -134,41 +134,61 @@ async function displayGameInfo(gameId) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
-    // ✅ Provide fallback values if data is missing
-    const gameImage = game.background_image || 'default-image.jpg'; 
-    const gameName = game.name || 'Unknown Title';
-    const releasedDate = game.released || 'Unknown';
-    const rating = game.rating || 'N/A';
-    const genres = game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A';
-    const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
-    const description = game.description_raw || 'No description available.';
+    // ✅ Collect Images: background_image + short_screenshots
+    let images = [game.background_image]; // Start with main background image
+    if (game.short_screenshots && game.short_screenshots.length > 0) {
+        images.push(...game.short_screenshots.map(s => s.image));
+    }
 
-    // ✅ Update Info Box Content
+    let currentIndex = 0; // Track which image is currently shown
+
+    // ✅ Function to Update Image
+    function updateImage(index) {
+        document.getElementById('carousel-image').src = images[index];
+    }
+
+    // ✅ Setup Image Navigation
+    function showNextImage() {
+        currentIndex = (currentIndex + 1) % images.length; // Loop forward
+        updateImage(currentIndex);
+    }
+
+    function showPrevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length; // Loop backward
+        updateImage(currentIndex);
+    }
+
+    // ✅ Info Box Content (Including Image Carousel)
     infoContent.innerHTML = `
         <div class="info-content">
+            <div class="image-carousel">
+                <button id="prev-image">❮</button>
+                <img id="carousel-image" src="${images[0]}" alt="${game.name}">
+                <button id="next-image">❯</button>
+            </div>
             <div class="info-details">
-            <h2>${gameName}</h2>
-            <img src="${gameImage}" alt="${gameName}">
-                <p><strong>Released:</strong> ${releasedDate}</p>
-                <p><strong>Rating:</strong> ${rating}</p>
-                <p><strong>Genres:</strong> ${genres}</p>
-                <p><strong>Platforms:</strong> ${platforms}</p>
-                <p><strong>Description:</strong> ${description}</p>
+                <h2>${game.name}</h2>
+                <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
+                <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
+                <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ') || 'N/A'}</p>
+                <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ') || 'N/A'}</p>
+                <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
-        <button id="close-info">✖</button>  <!-- Close Button -->
+        <button id="close-info">✖</button>
     `;
 
-    // ✅ Ensure Info Box is Visible
+    // ✅ Display the Info Box
     infoBox.style.display = 'flex';
 
-    // ✅ Attach Event Listener AFTER Adding Close Button
-    setTimeout(() => {
-        document.getElementById('close-info').addEventListener('click', function () {
-            infoBox.style.display = 'none';
-        });
-    }, 100); // Delay to ensure button exists before attaching event
+    // ✅ Attach Event Listeners
+    document.getElementById('next-image').addEventListener('click', showNextImage);
+    document.getElementById('prev-image').addEventListener('click', showPrevImage);
+    document.getElementById('close-info').addEventListener('click', function () {
+        infoBox.style.display = 'none';
+    });
 }
+
 
 
 

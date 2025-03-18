@@ -91,20 +91,24 @@ async function displayRecommendations(gameId) {
 // ✅ Display Game Info
 // ✅ Display Game Info in the Information Box
 async function displayGameInfo(gameId) {
-    const game = await fetchGameDetails(gameId); // ✅ Fetch game details dynamically
+    const game = await fetchGameDetails(gameId);
 
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
+
+    // ✅ Fix: Check if `genres` and `platforms` exist before mapping
+    const genres = game.genres ? game.genres.map(g => g.name).join(', ') : 'N/A';
+    const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
 
     infoContent.innerHTML = `
         <div class="info-content">
             <img src="${game.background_image}" alt="${game.name}">
             <div class="info-details">
                 <h2>${game.name}</h2>
-                <p><strong>Released:</strong> ${game.released}</p>
+                <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
                 <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
-                <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
-                <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
+                <p><strong>Genres:</strong> ${genres}</p>
+                <p><strong>Platforms:</strong> ${platforms}</p>
                 <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
@@ -114,10 +118,10 @@ async function displayGameInfo(gameId) {
     infoBox.style.display = 'flex';
 
     // ✅ Attach Close Button Dynamically
-    
-}
-document.getElementById('close-info').addEventListener('click', function() {
-        document.getElementById('game-info').style.display = 'none';
+    document.getElementById('close-info').addEventListener('click', function() {
+        infoBox.style.display = 'none';
     });
+}
+
 
 

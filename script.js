@@ -53,13 +53,20 @@ async function fetchRecommendedGames(selectedGame) {
         // ✅ Step 2: Fetch Games by Creators
         let creatorGames = [];
         if (selectedGame.creators && selectedGame.creators.length > 0) {
+            console.log("Creators Found:", selectedGame.creators);
+
             for (let creator of selectedGame.creators) {
                 let creatorResponse = await fetch(`${BASE_URL}/creators/${creator.id}/games?key=${API_KEY}`);
+                
                 if (creatorResponse.ok) {
                     let creatorData = await creatorResponse.json();
                     creatorGames.push(...creatorData.results);
+                } else {
+                    console.warn(`Failed to fetch games for creator ID: ${creator.id}`);
                 }
             }
+        } else {
+            console.warn("No creators found for this game.");
         }
 
         // ✅ Step 3: Filter creator-based games by matching genre

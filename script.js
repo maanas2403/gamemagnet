@@ -68,6 +68,7 @@ async function displayRecommendations(gameId) {
         <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
     `;
     selectedContainer.classList.remove('hidden');
+    selectedContainer.addEventListener('click', () => displayGameInfo(selectedGame)); // ✅ Clicking on selected game
 
     // Display Recommended Games
     const recommendations = await fetchRecommendedGames(selectedGame);
@@ -81,7 +82,30 @@ async function displayRecommendations(gameId) {
             <img src="${game.background_image}" alt="${game.name}">
             <h3>${game.name}</h3>
         `;
-        gameElement.addEventListener('click', () => displayGameInfo(game));
+        gameElement.addEventListener('click', () => displayGameInfo(game)); // ✅ Clicking on recommended games
         container.appendChild(gameElement);
     });
 }
+
+// ✅ Display Game Info in the Information Box
+function displayGameInfo(game) {
+    const infoBox = document.getElementById('game-info');
+    const infoContent = document.getElementById('info-content');
+
+    infoContent.innerHTML = `
+        <h2>${game.name}</h2>
+        <img src="${game.background_image}" alt="${game.name}">
+        <p><strong>Released:</strong> ${game.released}</p>
+        <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
+        <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
+        <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
+        <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
+    `;
+
+    infoBox.classList.remove('hidden'); // Show info box
+}
+
+// ✅ Close Info Box
+document.getElementById('close-info').addEventListener('click', function() {
+    document.getElementById('game-info').classList.add('hidden');
+});

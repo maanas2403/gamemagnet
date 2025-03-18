@@ -56,10 +56,6 @@ body {
 #selected-game {
     display: flex;
     justify-content: center;  /* Center horizontally */
-    align-items: center;  /* Center vertically */
-    position: absolute;  /* Ensure it stays in the middle */
-    top: 50%;
-    left: 50%;
 }
 /* Game Grid */
 .game-grid {

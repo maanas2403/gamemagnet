@@ -46,12 +46,24 @@ async function fetchRecommendedGames(selectedGame) {
 
 // Display recommendations as hoverable boxes
 async function displayRecommendations(gameId) {
+    const container = document.getElementById('recommendations');
+    
+    if (!container) {
+        console.error("Element with ID 'recommendations' not found!");
+        return; // Stop execution
+    }
+    
+    container.innerHTML = '<p>Loading...</p>'; // Debugging step
+    
     const selectedGame = await fetchGameDetails(gameId);
+    if (!selectedGame) {
+        container.innerHTML = '<p>No game details found.</p>';
+        return;
+    }
 
     const recommendations = await fetchRecommendedGames(selectedGame);
+    container.innerHTML = ''; // Clear previous content
 
-    const container = document.getElementById('recommendations');
-    container.innerHTML = '';
     recommendations.forEach(game => {
         const gameElement = document.createElement('div');
         gameElement.classList.add('game');
@@ -63,6 +75,7 @@ async function displayRecommendations(gameId) {
         container.appendChild(gameElement);
     });
 }
+
 
 // Display detailed game info in a modal
 function displayGameInfo(game) {

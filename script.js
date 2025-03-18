@@ -78,9 +78,9 @@ async function displayRecommendations(gameId) {
     recommendations.forEach(game => {
         const gameElement = document.createElement('div');
         gameElement.classList.add('game');
-        gameElement.innerHTML = 
+        gameElement.innerHTML = '
             <img src="${game.background_image}" alt="${game.name}">
-            <h3>${game.name}</h3>
+            <h3>${game.name}</h3>'
         ;
         gameElement.addEventListener('click', () => displayGameInfo(game.id));
         container.appendChild(gameElement);

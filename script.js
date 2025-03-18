@@ -91,7 +91,7 @@ async function displayRecommendations(gameId) {
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
-
+document.getElementById('game-info').style.display = 'flex';
     infoContent.innerHTML = `
         <div class="info-content">
             <img src="${game.background_image}" alt="${game.name}">

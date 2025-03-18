@@ -131,7 +131,7 @@ header {
 
 /* Image Styling */
 .info-content img {
-    width: 200px;
+    width: 350px;
     height: auto;
     border-radius: 10px;
     object-fit: cover;

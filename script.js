@@ -41,52 +41,40 @@ async function fetchGameDetails(gameId) {
 async function fetchRecommendedGames(selectedGame) {
     const response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
     const data = await response.json();
-    const allGames = data.results;
-
-    // ✅ Extract platforms and genres (allow flexibility)
+    
+    const selectedGameId = selectedGame.id;
     const selectedGenres = selectedGame.genres.map(g => g.id);
     const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);
 
-    // ✅ Filter games with at least one matching genre OR platform
-    const recommendedGames = allGames.filter(game =>
-        (game.genres && game.genres.some(genre => selectedGenres.includes(genre.id))) ||
-        (game.platforms && game.platforms.some(platform => selectedPlatforms.includes(platform.platform.id)))
+    const recommendedGames = data.results.filter(game =>
+        game.id !== selectedGameId &&
+        (game.genres.some(g => selectedGenres.includes(g.id)) ||
+        game.platforms.some(p => selectedPlatforms.includes(p.platform.id)))
     ).sort((a, b) => b.rating - a.rating);
 
-    console.log("Recommended Games List:", recommendedGames); // ✅ Debugging
-
+    console.log("Recommended Games List:", recommendedGames);
     return recommendedGames;
 }
 
-
-// Display recommendations as hoverable boxes
+// Display selected game & recommendations
 async function displayRecommendations(gameId) {
-    const container = document.getElementById('recommendations');
-    
-    if (!container) {
-        console.error("Element with ID 'recommendations' not found!");
-        return;
-    }
-    
-    container.innerHTML = '<p>Loading...</p>'; // Debugging step
-    
     const selectedGame = await fetchGameDetails(gameId);
-    if (!selectedGame) {
-        console.error("No game details found.");
-        container.innerHTML = '<p>No game details found.</p>';
-        return;
-    }
 
+    // Show Selected Game
+    const selectedContainer = document.getElementById('selected-game');
+    selectedContainer.innerHTML = `
+        <h2>${selectedGame.name}</h2>
+        <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
+        <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
+    `;
+    selectedContainer.classList.remove('hidden');
+
+    // Display Recommended Games
     const recommendations = await fetchRecommendedGames(selectedGame);
-
-    // ✅ Print the list of recommended games in console
-    console.log("Recommended Games List:", recommendations);
-
-    container.innerHTML = ''; // Clear previous content
+    const container = document.getElementById('recommendations');
+    container.innerHTML = '';
 
     recommendations.forEach(game => {
-        console.log(`Game: ${game.name}, Rating: ${game.rating}, Released: ${game.released}`);
-
         const gameElement = document.createElement('div');
         gameElement.classList.add('game');
         gameElement.innerHTML = `
@@ -97,27 +85,3 @@ async function displayRecommendations(gameId) {
         container.appendChild(gameElement);
     });
 }
-
-
-// Display detailed game info in a modal
-function displayGameInfo(game) {
-    const infoBox = document.getElementById('game-info');
-    const infoContent = document.getElementById('info-content');
-
-    infoContent.innerHTML = `
-        <h2>${game.name}</h2>
-        <img src="${game.background_image}" width="300">
-        <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
-        <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
-        <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
-        <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
-        <p><strong>Description:</strong> ${game.description_raw || 'No description available'}</p>
-    `;
-
-    infoBox.classList.remove('hidden');
-}
-
-// Close the info box
-document.getElementById('close-info').addEventListener('click', () => {
-    document.getElementById('game-info').classList.add('hidden');
-});

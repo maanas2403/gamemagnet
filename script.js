@@ -88,18 +88,23 @@ async function displayRecommendations(gameId) {
 }
 
 // ✅ Display Game Info in the Information Box
+// ✅ Display Game Info in the Information Box
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
     infoContent.innerHTML = `
-        <h2>${game.name}</h2>
-        <img src="${game.background_image}" alt="${game.name}">
-        <p><strong>Released:</strong> ${game.released}</p>
-        <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
-        <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
-        <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
-        <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
+        <div class="info-content">
+            <img src="${game.background_image}" alt="${game.name}">
+            <div class="info-details">
+                <h2>${game.name}</h2>
+                <p><strong>Released:</strong> ${game.released}</p>
+                <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
+                <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
+                <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
+                <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
+            </div>
+        </div>
     `;
 
     infoBox.classList.remove('hidden'); // Show info box

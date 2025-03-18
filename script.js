@@ -39,10 +39,25 @@ async function fetchGameDetails(gameId) {
 
 // Fetch recommended games
 async function fetchRecommendedGames(selectedGame) {
-    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}&genres=${selectedGame.genres[0].id}&platforms=${selectedGame.platforms[0].id}`);
+    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
     const data = await response.json();
-    return data.results.sort((a, b) => b.rating - a.rating);
+    const allGames = data.results;
+
+    // ✅ Extract platforms and genres (allow flexibility)
+    const selectedGenres = selectedGame.genres.map(g => g.id);
+    const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);
+
+    // ✅ Filter games with at least one matching genre OR platform
+    const recommendedGames = allGames.filter(game =>
+        (game.genres && game.genres.some(genre => selectedGenres.includes(genre.id))) ||
+        (game.platforms && game.platforms.some(platform => selectedPlatforms.includes(platform.platform.id)))
+    ).sort((a, b) => b.rating - a.rating);
+
+    console.log("Recommended Games List:", recommendedGames); // ✅ Debugging
+
+    return recommendedGames;
 }
+
 
 // Display recommendations as hoverable boxes
 async function displayRecommendations(gameId) {

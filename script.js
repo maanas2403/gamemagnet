@@ -41,16 +41,22 @@ async function fetchGameDetails(gameId) {
 async function fetchRecommendedGames(selectedGame) {
     const response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
     const data = await response.json();
-    
+
     const selectedGameId = selectedGame.id;
     const selectedGenres = selectedGame.genres.map(g => g.id);
     const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);
 
+    // ✅ Try to fetch franchise/series if available
+    const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
+
     const recommendedGames = data.results.filter(game =>
         game.id !== selectedGameId &&
-        (game.genres.some(g => selectedGenres.includes(g.id)) ||
-        game.platforms.some(p => selectedPlatforms.includes(p.platform.id)))
-    )
+        (
+            game.genres.some(g => selectedGenres.includes(g.id)) ||
+            game.platforms.some(p => selectedPlatforms.includes(p.platform.id)) ||
+            (game.parent_games && game.parent_games.some(p => selectedFranchise.includes(p.id))) // ✅ Franchise match
+        )
+    );
 
     console.log("Recommended Games List:", recommendedGames);
     return recommendedGames;

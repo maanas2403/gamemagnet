@@ -98,7 +98,7 @@ body {
     border-radius: 10px;
 }
 
-/* Info Box */
+/* Info Box Styling */
 .info-box {
     position: fixed;
     top: 50%;
@@ -109,16 +109,36 @@ body {
     padding: 20px;
     border-radius: 10px;
     width: 60%;
-    max-width: 600px;
+    max-width: 800px;
     text-align: left;
     z-index: 100;
     border: 2px solid #00ffcc;
+    overflow-y: auto; /* Enables scrolling if content overflows */
+    max-height: 80vh; /* Ensures it doesn't take up the full screen */
 }
 
-.hidden {
-    display: none;
+/* Flexbox Layout for Info Box */
+.info-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px; /* Smaller font size */
 }
 
+/* Image Styling */
+.info-content img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Details Section */
+.info-details {
+    flex: 1;
+}
+
+/* Close Button */
 #close-info {
     position: absolute;
     top: 10px;
@@ -130,4 +150,22 @@ body {
     font-size: 16px;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .info-box {
+        width: 90%;
+        max-width: 95%;
+    }
+    
+    .info-content {
+        flex-direction: column; /* Stacked layout on mobile */
+        text-align: center;
+    }
+    
+    .info-content img {
+        width: 100%; /* Full width image on mobile */
+        max-width: 300px;
+    }
 }

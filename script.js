@@ -39,47 +39,27 @@ async function fetchGameDetails(gameId) {
 
 // Fetch recommended games
 async function fetchRecommendedGames(selectedGame) {
-    try {
-        console.log("Fetching recommendations...");
+    const response = await fetch(${BASE_URL}/games?key=${API_KEY});
+    const data = await response.json();
 
-        // ✅ Fetch Suggested Games
-        let response = await fetch(`${BASE_URL}/games/${selectedGame.id}/suggested?key=${API_KEY}`);
-        if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-        let suggestedData = await response.json();
+    const selectedGameId = selectedGame.id;
+    const selectedGenres = selectedGame.genres.map(g => g.id);
+    const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);
 
-        // ✅ Fetch General Game List
-        response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
-        if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-        let generalData = await response.json();
+    // ✅ Try to fetch franchise/series if available
+    const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
+    console.log(selectedFranchise);
+    const recommendedGames = data.results.filter(game =>
+        game.id !== selectedGameId &&
+        (
+            game.genres.some(g => selectedGenres.includes(g.id)) ||
+            game.platforms.some(p => selectedPlatforms.includes(p.platform.id)) ||
+            (game.parent_games && game.parent_games.some(p => selectedFranchise.includes(p.id))) // ✅ Franchise match
+        )
+    );
 
-        // ✅ Ensure response contains results
-        if (!suggestedData.results || !generalData.results) throw new Error("Empty response from API");
-
-        const selectedGameId = selectedGame.id;
-        const selectedGenres = selectedGame.genres ? selectedGame.genres.map(g => g.id) : [];
-        const selectedPlatforms = selectedGame.platforms ? selectedGame.platforms.map(p => p.platform.id) : [];
-        const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
-
-        let allGames = [...suggestedData.results, ...generalData.results];
-
-        // ✅ Filter by Genre, Platform, Franchise
-        const recommendedGames = allGames.filter(game =>
-            game.id !== selectedGameId &&
-            (
-                (game.genres && game.genres.some(g => selectedGenres.includes(g.id))) ||
-                (game.platforms && game.platforms.some(p => selectedPlatforms.includes(p.platform.id))) ||
-                (game.parent_games && game.parent_games.some(p => selectedFranchise.includes(p.id)))
-            )
-        );
-
-        recommendedGames.sort((a, b) => b.rating - a.rating);
-
-        console.log("Recommended Games List:", recommendedGames);
-        return recommendedGames;
-    } catch (error) {
-        console.error("Error fetching recommended games:", error);
-        return []; // ✅ Return empty list to prevent app crash
-    }
+    console.log("Recommended Games List:", recommendedGames);
+    return recommendedGames;
 }
 
 

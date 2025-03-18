@@ -48,7 +48,7 @@ async function fetchRecommendedGames(selectedGame) {
 
     // ✅ Try to fetch franchise/series if available
     const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
-
+    console.log(selectedFranchise);
     const recommendedGames = data.results.filter(game =>
         game.id !== selectedGameId &&
         (

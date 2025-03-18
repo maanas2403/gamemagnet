@@ -50,7 +50,7 @@ async function fetchRecommendedGames(selectedGame) {
         game.id !== selectedGameId &&
         (game.genres.some(g => selectedGenres.includes(g.id)) ||
         game.platforms.some(p => selectedPlatforms.includes(p.platform.id)))
-    ).sort((a, b) => b.rating - a.rating);
+    )
 
     console.log("Recommended Games List:", recommendedGames);
     return recommendedGames;

@@ -99,6 +99,7 @@ body {
 }
 
 /* Info Box */
+/* Info Box */
 .info-box {
     position: fixed;
     top: 50%;
@@ -118,3 +119,17 @@ body {
 .hidden {
     display: none;
 }
+
+#close-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+

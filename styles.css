@@ -1,35 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #0a0a0a;
     color: white;
     text-align: center;
 }
 
 .container {
-    width: 60%;
+    width: 90%;
     margin: auto;
     padding: 20px;
 }
 
+/* Search Bar */
 .search-container {
     position: relative;
-    max-width: 400px;
+    max-width: 500px;
     margin: auto;
 }
 
 #search-input {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    padding: 15px;
+    font-size: 18px;
+    border: 2px solid #00ffcc;
     border-radius: 5px;
+    background: black;
+    color: white;
+    text-align: center;
 }
 
+/* Dropdown */
 .dropdown {
     position: absolute;
     width: 100%;
-    background: black;
-    border: 1px solid #ccc;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #00ffcc;
     border-radius: 5px;
     display: none;
     z-index: 10;
@@ -38,28 +45,48 @@ body {
 .dropdown div {
     padding: 10px;
     cursor: pointer;
+    color: #00ffcc;
 }
 
 .dropdown div:hover {
-    background: gray;
+    background: #00ffcc;
+    color: black;
 }
 
-/* Game grid */
+/* Selected Game Display */
+.selected-game {
+    margin: 20px auto;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    text-align: center;
+    border: 2px solid #00ffcc;
+}
+
+.selected-game img {
+    width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+}
+
+/* Game Grid */
 .game-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 .game {
-    background: #222;
-    padding: 10px;
-    border-radius: 5px;
-    width: 200px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    width: calc(20% - 20px);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    border: 2px solid #00ffcc;
 }
 
 .game:hover {
@@ -68,7 +95,7 @@ body {
 
 .game img {
     max-width: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 /* Info Box */
@@ -77,30 +104,17 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
-    color: black;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
     padding: 20px;
     border-radius: 10px;
-    width: 50%;
-    max-width: 500px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    width: 60%;
+    max-width: 600px;
     text-align: left;
     z-index: 100;
+    border: 2px solid #00ffcc;
 }
 
 .hidden {
     display: none;
-}
-
-#close-info {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 5px;
 }

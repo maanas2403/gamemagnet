@@ -133,7 +133,7 @@ async function displayGameInfo(gameId) {
 
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
-
+    console.log("Game:",game);
     // ✅ Get all images (background + screenshots)
     const images = game.short_screenshots ? game.short_screenshots.map(s => s.image) : [];
     if (game.background_image) {

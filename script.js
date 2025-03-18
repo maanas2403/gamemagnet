@@ -55,7 +55,7 @@ async function fetchRecommendedGames(selectedGame) {
         if (selectedGame.tags && selectedGame.tags.length > 0) {
             console.log("Tags Found:", selectedGame.tags);
 
-            for (let tag of selectedGame.tags.slice(0, 3)) { // Limit to 3 tags to avoid excessive API calls
+            for (let tag of selectedGame.tags.slice(0, 3)) { // Limit to 3 tags to optimize API calls
                 let tagResponse = await fetch(`${BASE_URL}/games?key=${API_KEY}&tags=${tag.id}`);
                 
                 if (tagResponse.ok) {
@@ -73,7 +73,13 @@ async function fetchRecommendedGames(selectedGame) {
         let recommendedGames = [...seriesGames, ...tagGames];
         recommendedGames = [...new Map(recommendedGames.map(game => [game.id, game])).values()];
 
-        console.log("Final Recommended Games List:", recommendedGames);
+        // ✅ Step 4: Exclude the Original Selected Game
+        recommendedGames = recommendedGames.filter(game => game.id !== selectedGame.id);
+
+        // ✅ Step 5: Sort by Rating (Highest First)
+        recommendedGames.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+
+        console.log("Final Recommended Games List (Sorted by Rating):", recommendedGames);
         return recommendedGames;
 
     } catch (error) {

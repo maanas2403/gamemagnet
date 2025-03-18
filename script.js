@@ -39,28 +39,47 @@ async function fetchGameDetails(gameId) {
 
 // Fetch recommended games
 async function fetchRecommendedGames(selectedGame) {
-    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
-    const data = await response.json();
+    try {
+        // ✅ Fetch Suggested Games from RAWG API
+        const response = await fetch(`${BASE_URL}/games/${selectedGame.id}/suggested?key=${API_KEY}`);
+        const suggestedData = await response.json();
 
-    const selectedGameId = selectedGame.id;
-    const selectedGenres = selectedGame.genres.map(g => g.id);
-    const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);
+        // ✅ Extract selected game details
+        const selectedGameId = selectedGame.id;
+        const selectedGenres = selectedGame.genres ? selectedGame.genres.map(g => g.id) : [];
+        const selectedPlatforms = selectedGame.platforms ? selectedGame.platforms.map(p => p.platform.id) : [];
+        const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
 
-    // ✅ Try to fetch franchise/series if available
-    const selectedFranchise = selectedGame.parent_games ? selectedGame.parent_games.map(p => p.id) : [];
-    console.log(selectedFranchise);
-    const recommendedGames = data.results.filter(game =>
-        game.id !== selectedGameId &&
-        (
-            game.genres.some(g => selectedGenres.includes(g.id)) ||
-            game.platforms.some(p => selectedPlatforms.includes(p.platform.id)) ||
-            (game.parent_games && game.parent_games.some(p => selectedFranchise.includes(p.id))) // ✅ Franchise match
-        )
-    );
+        console.log("Selected Game Franchise:", selectedFranchise);
 
-    console.log("Recommended Games List:", recommendedGames);
-    return recommendedGames;
+        // ✅ Fetch general game list to improve recommendations
+        const generalResponse = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
+        const generalData = await generalResponse.json();
+
+        // ✅ Merge RAWG Suggested Games and General Games
+        let allGames = [...suggestedData.results, ...generalData.results];
+
+        // ✅ Filter games that match genre, platform, and franchise
+        const recommendedGames = allGames.filter(game =>
+            game.id !== selectedGameId &&
+            (
+                (game.genres && game.genres.some(g => selectedGenres.includes(g.id))) ||  // Genre Match
+                (game.platforms && game.platforms.some(p => selectedPlatforms.includes(p.platform.id))) || // Platform Match
+                (game.parent_games && game.parent_games.some(p => selectedFranchise.includes(p.id))) // Franchise Match
+            )
+        );
+
+        // ✅ Sort by rating to show best games first
+        recommendedGames.sort((a, b) => b.rating - a.rating);
+
+        console.log("Recommended Games List:", recommendedGames);
+        return recommendedGames;
+    } catch (error) {
+        console.error("Error fetching recommended games:", error);
+        return [];
+    }
 }
+
 
 // Display selected game & recommendations
 async function displayRecommendations(gameId) {

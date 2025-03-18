@@ -82,7 +82,7 @@ async function displayRecommendations(gameId) {
             <img src="${game.background_image}" alt="${game.name}">
             <h3>${game.name}</h3>
         `;
-        gameElement.addEventListener('click', () => displayGameInfo(game));
+        gameElement.addEventListener('click', () => displayGameInfo(game.id));
         container.appendChild(gameElement);
     });
 }

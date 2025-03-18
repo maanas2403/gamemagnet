@@ -32,6 +32,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: none;
+    z-index: 10;
 }
 
 .dropdown div {
@@ -43,6 +44,7 @@ body {
     background: gray;
 }
 
+/* Game grid */
 .game-grid {
     display: flex;
     flex-wrap: wrap;
@@ -56,9 +58,49 @@ body {
     border-radius: 5px;
     width: 200px;
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.game:hover {
+    transform: scale(1.05);
 }
 
 .game img {
     max-width: 100%;
+    border-radius: 5px;
+}
+
+/* Info Box */
+.info-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 500px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    text-align: left;
+    z-index: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+#close-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px 10px;
     border-radius: 5px;
 }

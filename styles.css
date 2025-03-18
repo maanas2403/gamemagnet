@@ -14,7 +14,14 @@ body {
     margin: auto;
     padding: 20px;
 }
-
+header {
+    z-index:1;
+    background-color: #151212;
+    color: #fff;
+    text-align: center;
+    filter:opacity(0.85);
+    padding: 10px;
+}
 /* Search Bar */
 .search-container {
     position: relative;

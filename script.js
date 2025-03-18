@@ -60,16 +60,21 @@ async function fetchRecommendedGames(selectedGame) {
 async function displayRecommendations(gameId) {
     const selectedGame = await fetchGameDetails(gameId);
 
-    // Show Selected Game
+    // ✅ Show Selected Game with Full Details
     const selectedContainer = document.getElementById('selected-game');
     selectedContainer.innerHTML = `
-        <h2>${selectedGame.name}</h2>
-        <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
-        <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
+        <div class="game" onclick="displayGameInfo(${gameId})">
+            <img src="${selectedGame.background_image}" alt="${selectedGame.name}">
+            <h2>${selectedGame.name}</h2>
+            <p><strong>Released:</strong> ${selectedGame.released}</p>
+            <p><strong>Rating:</strong> ${selectedGame.rating || 'N/A'}</p>
+            <p><strong>Genres:</strong> ${selectedGame.genres.map(g => g.name).join(', ')}</p>
+            <p><strong>Platforms:</strong> ${selectedGame.platforms.map(p => p.platform.name).join(', ')}</p>
+        </div>
     `;
-    selectedContainer.style.display = 'block'; // ✅ Show the selected game
+    selectedContainer.style.display = 'block';
 
-    // Display Recommended Games
+    // ✅ Display Recommended Games
     const recommendations = await fetchRecommendedGames(selectedGame);
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
@@ -86,12 +91,13 @@ async function displayRecommendations(gameId) {
     });
 }
 
+
 // ✅ Display Game Info
 // ✅ Display Game Info in the Information Box
 function displayGameInfo(game) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
-document.getElementById('game-info').style.display = 'flex';
+
     infoContent.innerHTML = `
         <div class="info-content">
             <img src="${game.background_image}" alt="${game.name}">
@@ -104,13 +110,15 @@ document.getElementById('game-info').style.display = 'flex';
                 <p><strong>Description:</strong> ${game.description_raw || 'No description available.'}</p>
             </div>
         </div>
+        <button id="close-info">✖</button>
     `;
 
-    infoBox.classList.remove('hidden'); // Show info box
+    infoBox.style.display = 'flex';
+
+    // ✅ Add Event Listener Dynamically for Close Button
+    document.getElementById('close-info').addEventListener('click', function() {
+        infoBox.style.display = 'none';
+    });
 }
 
-// ✅ Close Info Box
-document.getElementById('close-info').addEventListener('click', function() {
-    document.getElementById('game-info').style.display = 'none';
-});
 

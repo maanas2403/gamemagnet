@@ -139,7 +139,7 @@ async function displayGameInfo(gameId) {
     if (game.background_image) {
         images.unshift(game.background_image); // ✅ Add main image first
     }
-
+    console.log("Images:",images);
     let currentIndex = 0; // ✅ Track which image is displayed
 
     // ✅ Function to update the displayed image

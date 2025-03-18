@@ -2,21 +2,58 @@
 const API_KEY = '2a295faa0e534f769010be3cef2a7b33';
 const BASE_URL = 'https://api.rawg.io/api';
 
-async function fetchGameDetails(gameName) {
-    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}&search=${gameName}`);
+// Handle search input
+document.getElementById('search-input').addEventListener('input', async function() {
+    const query = this.value.trim();
+    if (query.length < 2) {
+        document.getElementById('search-results').style.display = 'none';
+        return;
+    }
+
+    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}&search=${query}`);
     const data = await response.json();
-    return data.results[0]; // First game result
+    
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = '';
+    
+    data.results.slice(0, 5).forEach(game => {
+        const div = document.createElement('div');
+        div.textContent = game.name;
+        div.addEventListener('click', () => {
+            document.getElementById('search-input').value = game.name;
+            resultsContainer.style.display = 'none';
+            displayRecommendations(game.id);
+        });
+        resultsContainer.appendChild(div);
+    });
+
+    resultsContainer.style.display = 'block';
+});
+
+// Fetch game details
+async function fetchGameDetails(gameId) {
+    const response = await fetch(`${BASE_URL}/games/${gameId}?key=${API_KEY}`);
+    const data = await response.json();
+    return data;
 }
 
+// Fetch recommended games
 async function fetchRecommendedGames(selectedGame) {
-    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}&genres=${selectedGame.genres[0].slug}&platforms=${selectedGame.platforms[0].id}`);
+    const response = await fetch(`${BASE_URL}/games?key=${API_KEY}&genres=${selectedGame.genres[0].id}&platforms=${selectedGame.platforms[0].id}`);
     const data = await response.json();
     return data.results.sort((a, b) => b.rating - a.rating);
 }
 
-async function displayRecommendations(gameName) {
-    const selectedGame = await fetchGameDetails(gameName);
-    if (!selectedGame) return;
+// Display recommendations
+async function displayRecommendations(gameId) {
+    const selectedGame = await fetchGameDetails(gameId);
+    
+    const detailsContainer = document.getElementById('game-details');
+    detailsContainer.innerHTML = `
+        <h2>${selectedGame.name}</h2>
+        <img src="${selectedGame.background_image}" width="300">
+        <p>Rating: ${selectedGame.rating || 'N/A'}</p>
+    `;
 
     const recommendations = await fetchRecommendedGames(selectedGame);
 
@@ -33,9 +70,4 @@ async function displayRecommendations(gameName) {
         container.appendChild(gameElement);
     });
 }
-
-document.getElementById('search-button').addEventListener('click', () => {
-    const gameName = document.getElementById('search-input').value;
-    displayRecommendations(gameName);
-});
 

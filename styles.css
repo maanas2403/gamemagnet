@@ -56,6 +56,7 @@ body {
 #selected-game {
     display: flex;
     justify-content: center;  /* Center horizontally */
+     margin: 20px auto;
 }
 /* Game Grid */
 .game-grid {

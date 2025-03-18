@@ -44,16 +44,9 @@ async function fetchRecommendedGames(selectedGame) {
     return data.results.sort((a, b) => b.rating - a.rating);
 }
 
-// Display recommendations
+// Display recommendations as hoverable boxes
 async function displayRecommendations(gameId) {
     const selectedGame = await fetchGameDetails(gameId);
-    
-    const detailsContainer = document.getElementById('game-details');
-    detailsContainer.innerHTML = `
-        <h2>${selectedGame.name}</h2>
-        <img src="${selectedGame.background_image}" width="300">
-        <p>Rating: ${selectedGame.rating || 'N/A'}</p>
-    `;
 
     const recommendations = await fetchRecommendedGames(selectedGame);
 
@@ -65,9 +58,31 @@ async function displayRecommendations(gameId) {
         gameElement.innerHTML = `
             <img src="${game.background_image}" alt="${game.name}">
             <h3>${game.name}</h3>
-            <p>Rating: ${game.rating || 'N/A'}</p>
         `;
+        gameElement.addEventListener('click', () => displayGameInfo(game));
         container.appendChild(gameElement);
     });
 }
 
+// Display detailed game info in a modal
+function displayGameInfo(game) {
+    const infoBox = document.getElementById('game-info');
+    const infoContent = document.getElementById('info-content');
+
+    infoContent.innerHTML = `
+        <h2>${game.name}</h2>
+        <img src="${game.background_image}" width="300">
+        <p><strong>Rating:</strong> ${game.rating || 'N/A'}</p>
+        <p><strong>Released:</strong> ${game.released || 'Unknown'}</p>
+        <p><strong>Genres:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
+        <p><strong>Platforms:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
+        <p><strong>Description:</strong> ${game.description_raw || 'No description available'}</p>
+    `;
+
+    infoBox.classList.remove('hidden');
+}
+
+// Close the info box
+document.getElementById('close-info').addEventListener('click', () => {
+    document.getElementById('game-info').classList.add('hidden');
+});

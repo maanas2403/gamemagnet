@@ -140,6 +140,7 @@ header {
 /* Details Section */
 .info-details {
     flex: 1;
+    justify-content: center;
 }
 
 .image-carousel {

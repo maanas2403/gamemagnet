@@ -54,7 +54,7 @@ body {
     color: black;
 }
 #selected-game {
-    display: flex;
+    display: flex!important;
     justify-content: center;  /* Center horizontally */
     margin: 20px auto;
     width: 100%; /* Ensures the container spans full width */

@@ -130,7 +130,7 @@ async function displayGameInfo(gameId) {
         console.error("Game details not found.");
         return;
     }
-    console.log("Game:",game)
+    console.log("Game:",game);
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 

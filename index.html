@@ -9,15 +9,24 @@
 <body>
     <div class="container">
         <h1>Game Recommendations</h1>
+        
         <div class="search-container">
             <input type="text" id="search-input" placeholder="Search for a game..." autocomplete="off">
             <div id="search-results" class="dropdown"></div>
         </div>
-        <div id="game-details"></div>
+
         <h2>Recommended Games</h2>
         <div id="recommendations" class="game-grid"></div>
     </div>
+
+    <!-- Information Box -->
+    <div id="game-info" class="info-box hidden">
+        <button id="close-info">✖</button>
+        <div id="info-content"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+
 

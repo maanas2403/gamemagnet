@@ -101,7 +101,7 @@ async function displayGameInfo(gameId) {
     const infoBox = document.getElementById('game-info');
     const infoContent = document.getElementById('info-content');
 
-    // ✅ Fix: Provide fallback values if data is missing
+    // ✅ Provide fallback values if data is missing
     const gameImage = game.background_image || 'default-image.jpg'; 
     const gameName = game.name || 'Unknown Title';
     const releasedDate = game.released || 'Unknown';
@@ -110,7 +110,7 @@ async function displayGameInfo(gameId) {
     const platforms = game.platforms ? game.platforms.map(p => p.platform.name).join(', ') : 'N/A';
     const description = game.description_raw || 'No description available.';
 
-    // ✅ Update Info Box with Clicked Game Details
+    // ✅ Update Info Box Content
     infoContent.innerHTML = `
         <div class="info-content">
             <img src="${gameImage}" alt="${gameName}">
@@ -123,15 +123,18 @@ async function displayGameInfo(gameId) {
                 <p><strong>Description:</strong> ${description}</p>
             </div>
         </div>
-        <button id="close-info">✖</button>
+        <button id="close-info">✖</button>  <!-- Close Button -->
     `;
 
+    // ✅ Ensure Info Box is Visible
     infoBox.style.display = 'flex';
 
-    // ✅ Attach Close Button Dynamically
-    document.getElementById('close-info').addEventListener('click', function () {
-        infoBox.style.display = 'none';
-    });
+    // ✅ Attach Event Listener AFTER Adding Close Button
+    setTimeout(() => {
+        document.getElementById('close-info').addEventListener('click', function () {
+            infoBox.style.display = 'none';
+        });
+    }, 100); // Delay to ensure button exists before attaching event
 }
 
 

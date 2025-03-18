@@ -41,7 +41,7 @@ async function fetchGameDetails(gameId) {
 async function fetchRecommendedGames(selectedGame) {
     const response = await fetch(`${BASE_URL}/games?key=${API_KEY}`);
     const data = await response.json();
-
+    console.log("Data:", data);
     const selectedGameId = selectedGame.id;
     const selectedGenres = selectedGame.genres.map(g => g.id);
     const selectedPlatforms = selectedGame.platforms.map(p => p.platform.id);

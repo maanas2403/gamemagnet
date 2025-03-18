@@ -60,7 +60,7 @@ async function fetchRecommendedGames(selectedGame) {
 async function displayRecommendations(gameId) {
     const selectedGame = await fetchGameDetails(gameId);
 
-    // ✅ Show Selected Game Separately (Avoid Nesting in Recommendations)
+    // ✅ Show Selected Game (Only Image & Title, No Details)
     const selectedContainer = document.getElementById('selected-game');
     selectedContainer.innerHTML = `
         <div class="game" onclick="displayGameInfo(${gameId})">
@@ -70,10 +70,10 @@ async function displayRecommendations(gameId) {
     `;
     selectedContainer.style.display = 'block';
 
-    // ✅ Display Recommended Games (Avoid Adding the Selected Game Here)
-    const recommendations = await fetchRecommendedGames(selectedGame);
+    // ✅ Fetch & Display Recommended Games
+    const recommendations = await fetchRecommendedGames(selectedGame.id);
     const container = document.getElementById('recommendations');
-    container.innerHTML = ''; // Clear previous recommendations
+    container.innerHTML = '';
 
     recommendations.forEach(game => {
         const gameElement = document.createElement('div');
@@ -82,12 +82,9 @@ async function displayRecommendations(gameId) {
             <img src="${game.background_image}" alt="${game.name}">
             <h3>${game.name}</h3>
         `;
-        gameElement.addEventListener('click', () => displayGameInfo(game.id));
+        gameElement.addEventListener('click', () => displayGameInfo(game.id));  // ✅ Pass game.id
         container.appendChild(gameElement);
     });
-
-    // ✅ Ensure Recommendations are Visible
-    container.style.display = 'block';
 }
 
 

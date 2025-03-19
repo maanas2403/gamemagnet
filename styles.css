@@ -15,40 +15,42 @@ body {
     padding: 20px;
 }
 header {
-    z-index: 1;
+    z-index:1;
     background-color: #151212;
     color: #fff;
     text-align: center;
-    opacity: 0.85;  /* ✅ Fixed */
+    filter:opacity(0.85);
     padding: 10px;
+    gap:5px;
 }
-
-.header-secondary {  /* ✅ Fixed header2 */
-    z-index: 1;
+#recommended-header {
+    z-index:1;
     background-color: #151212;
     color: #fff;
     text-align: center;
-    opacity: 0.85;
+    filter:opacity(0.85);
     padding: 10px;
+    gap:5px;
 }
-
-h1, h2 {
+h1{
     color: #00ffcc;
 }
-
+h2{
+    color: #00ffcc;
+}
 /* Search Bar */
 .search-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 10px auto;
+    width: 100%;  /* ✅ Matches header width */
+    max-width: 800px; /* ✅ Optional: Limits maximum width */
+    margin: 10px auto; /* ✅ Centers it */
     display: flex;
     justify-content: center;
 }
 
-/* Search Input */
+/* Search Input - Matches Container Width */
 #search-input {
-    width: 100%;
-    max-width: 800px;
+    width: 100%;  /* ✅ Ensures full width */
+    max-width: 800px; /* ✅ Optional: Matches header size */
     padding: 15px;
     font-size: 14px;
     font-family: 'Press Start 2P', cursive;
@@ -58,7 +60,6 @@ h1, h2 {
     color: white;
     text-align: center;
 }
-
 /* Dropdown */
 .dropdown {
     position: absolute;
@@ -80,20 +81,24 @@ h1, h2 {
     background: #00ffcc;
     color: black;
 }
-
 #selected-game {
     display: flex!important;
-    justify-content: center;
+    justify-content: center;  /* Center horizontally */
     margin: 20px auto;
-    width: 100%;
+    width: 100%; /* Ensures the container spans full width */
 }
 
-/* Game Grid */
+/* Ensure the selected game is properly centered */
+#selected-game .game {
+    width: 300px;  /* Set a fixed width */
+    max-width: 100%; /* Ensure responsiveness */
+}
+/* Game Grid - Responsive Layout */
 .game-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 20px;  /* ✅ Ensures spacing between boxes */
 }
 
 /* Game Box */
@@ -101,39 +106,41 @@ h1, h2 {
     background: rgba(0, 0, 0, 0.8);
     padding: 15px;
     border-radius: 10px;
-    width: calc(25% - 20px);
+    width: calc(25% - 20px); /* ✅ Adjusted width for better spacing */
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     border: 2px solid #00ffcc;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* ✅ Ensure image & text stay stacked */
     align-items: center;
-    overflow: hidden;
-    min-height: 200px;
+    overflow: hidden; /* ✅ Prevents text from overflowing */
+    min-height: 200px; /* ✅ Ensures consistency in height */
 }
 
+/* Game Hover Effect */
 .game:hover {
     transform: scale(1.05);
 }
 
+/* Game Image */
 .game img {
     max-width: 100%;
     border-radius: 10px;
 }
 
-/* Game Title */
+/* Game Title - Ensures No Overlapping */
 .game h3 {
     color: #00ffcc;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 90%;
+    white-space: nowrap; /* ✅ Prevents multi-line text */
+    overflow: hidden; /* ✅ Prevents text overflow */
+    text-overflow: ellipsis; /* ✅ Adds "..." if text is too long */
+    max-width: 90%; /* ✅ Ensures text fits within the box */
     font-size: 14px;
     margin-top: 10px;
 }
 
-/* Info Box */
+/* Info Box Styling */
 .info-box {
     position: fixed;
     top: 50%;
@@ -148,18 +155,19 @@ h1, h2 {
     text-align: center;
     z-index: 100;
     border: 2px solid #00ffcc;
-    overflow-y: auto;
-    max-height: 80vh;
+    overflow-y: auto; /* Enables scrolling if content overflows */
+    max-height: 80vh; /* Ensures it doesn't take up the full screen */
 }
 
-/* Info Content */
+/* Flexbox Layout for Info Box */
 .info-content {
     display: flex;
     align-items: center;
     gap: 20px;
-    font-size: 14px;
+    font-size: 14px; /* Smaller font size */
 }
 
+/* Image Styling */
 .info-content img {
     width: 350px;
     height: auto;
@@ -167,32 +175,29 @@ h1, h2 {
     object-fit: cover;
 }
 
-/* Info Details */
+/* Details Section */
 .info-details {
     flex: 1;
     justify-content: center;
 }
-
 .info-details h2 {
-    color: #00ffcc;
+    color: #00ffcc; /* ✅ Makes left-side text cyan */
 }
-
 .info-details p strong {
-    color: #00ffcc;
+    color: #00ffcc; /* ✅ Makes left-side text cyan */
 }
 
-/* Game Link */
 .game-link {
-    color: #00ffcc;
+     /* ✅ Ensures website link is also cyan */
     text-decoration: none;
     font-weight: bold;
 }
 
 .game-link:hover {
+    color: #00ffcc;
     text-decoration: underline;
 }
 
-/* Image Carousel */
 .image-carousel {
     display: flex;
     align-items: center;
@@ -227,7 +232,6 @@ h1, h2 {
 #next-image {
     right: 0;
 }
-
 /* Close Button */
 #close-info {
     position: absolute;
@@ -241,18 +245,37 @@ h1, h2 {
     padding: 5px 10px;
     border-radius: 5px;
 }
-
+@media (max-width: 1024px) {
+    .game {
+        width: calc(33.33% - 20px); /* ✅ Fewer boxes per row on medium screens */
+    }
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .game {
-        width: calc(50% - 20px);
+        width: calc(50% - 20px); /* ✅ Two boxes per row on smaller screens */
     }
     .info-box {
-        width: 90%;
+        width: 70%;
+        max-width: 70%;
+    }
+    
+    .info-content {
+        flex-direction: column; /* Stacked layout on mobile */
+        text-align: center;
+    }
+    
+    .info-content img {
+        width: 100%; /* Full width image on mobile */
+        max-width: 300px;
     }
 }
 @media (max-width: 480px) {
+    .info-box {
+        width: 70%;
+        max-width: 70%;
+    }
     .game {
-        width: calc(100% - 20px);
+        width: calc(100% - 20px); /* ✅ One box per row on mobile screens */
     }
 }

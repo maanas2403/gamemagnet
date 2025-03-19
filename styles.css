@@ -30,7 +30,7 @@ header {
     text-align: center;
     filter:opacity(0.85);
     padding: 10px;
-    gap:5px;
+    margin-bottom:5px;
 }
 h1{
     color: #00ffcc;
@@ -130,6 +130,7 @@ h2{
 .game img {
     max-width: 100%;
     border-radius: 10px;
+    border: 2px solid #00ffcc;
 }
 
 /* Game Title - Ensures No Overlapping */
@@ -175,7 +176,9 @@ h2{
     width: 350px;
     height: auto;
     border-radius: 10px;
+    border: 2px solid #00ffcc;
     object-fit: cover;
+    margin-bottom:10px;
 }
 
 /* Details Section */
@@ -192,6 +195,7 @@ h2{
 
 .game-link {
      /* ✅ Ensures website link is also cyan */
+    color: #fff;
     text-decoration: none;
     font-weight: bold;
 }

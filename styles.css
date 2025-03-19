@@ -40,6 +40,7 @@ h2{
 }
 /* Search Bar */
 .search-container {
+    position: relative;
     width: 100%;  /* ✅ Matches header width */
     max-width: 800px; /* ✅ Optional: Limits maximum width */
     margin: 10px auto; /* ✅ Centers it */
@@ -63,6 +64,8 @@ h2{
 /* Dropdown */
 .dropdown {
     position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.9);
     border: 1px solid #00ffcc;

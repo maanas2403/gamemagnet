@@ -27,7 +27,7 @@ header {
 .search-container {
     position: relative;
     max-width: 500px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 #search-input {

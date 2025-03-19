@@ -25,23 +25,26 @@ header {
 }
 /* Search Bar */
 .search-container {
-    position: relative;
-    max-width: 500px;
-    margin: 0 auto;
+    width: 100%;  /* ✅ Matches header width */
+    max-width: 800px; /* ✅ Optional: Limits maximum width */
+    margin: 10px auto; /* ✅ Centers it */
+    display: flex;
+    justify-content: center;
 }
 
+/* Search Input - Matches Container Width */
 #search-input {
-    width: 100%;
+    width: 100%;  /* ✅ Ensures full width */
+    max-width: 800px; /* ✅ Optional: Matches header size */
     padding: 15px;
-    font-size: 14px; /* ✅ Matches dropdown font */
-    font-family: 'Press Start 2P', cursive; /* ✅ Matches dropdown font */
+    font-size: 14px;
+    font-family: 'Press Start 2P', cursive;
     border: 2px solid #00ffcc;
     border-radius: 5px;
     background: black;
     color: white;
     text-align: center;
 }
-
 /* Dropdown */
 .dropdown {
     position: absolute;

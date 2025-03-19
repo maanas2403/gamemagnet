@@ -21,6 +21,7 @@ header {
     text-align: center;
     filter:opacity(0.85);
     padding: 10px;
+    gap:5px;
 }
 /* Search Bar */
 .search-container {

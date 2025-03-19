@@ -107,7 +107,11 @@ async function displayRecommendations(gameId) {
     const recommendations = await fetchRecommendedGames(selectedGame);
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
-
+    if (recommendations.length > 0) {
+        document.getElementById('recommended-header').style.display = 'block'; // ✅ Show header
+    } else {
+        document.getElementById('recommended-header').style.display = 'none'; // ✅ Hide if no games
+    }
     recommendations.forEach(game => {
         const gameElement = document.createElement('div');
         gameElement.classList.add('game');

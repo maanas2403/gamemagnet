@@ -220,7 +220,7 @@ header {
     }
     .info-box {
         width: 90%;
-        max-width: 95%;
+        max-width: 90%;
     }
     
     .info-content {
@@ -234,6 +234,10 @@ header {
     }
 }
 @media (max-width: 480px) {
+    .info-box {
+        width: 90%;
+        max-width: 90%;
+    }
     .game {
         width: calc(100% - 20px); /* ✅ One box per row on mobile screens */
     }

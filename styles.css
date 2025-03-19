@@ -23,7 +23,7 @@ header {
     padding: 10px;
     gap:5px;
 }
-header2 {
+#recommended-header {
     z-index:1;
     background-color: #151212;
     color: #fff;

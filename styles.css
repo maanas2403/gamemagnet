@@ -74,32 +74,50 @@ header {
     width: 300px;  /* Set a fixed width */
     max-width: 100%; /* Ensure responsiveness */
 }
-/* Game Grid */
+/* Game Grid - Responsive Layout */
 .game-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 20px;  /* ✅ Ensures spacing between boxes */
 }
 
+/* Game Box */
 .game {
     background: rgba(0, 0, 0, 0.8);
     padding: 15px;
     border-radius: 10px;
-    width: calc(20% - 20px);
+    width: calc(25% - 20px); /* ✅ Adjusted width for better spacing */
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     border: 2px solid #00ffcc;
+    display: flex;
+    flex-direction: column; /* ✅ Ensure image & text stay stacked */
+    align-items: center;
+    overflow: hidden; /* ✅ Prevents text from overflowing */
+    min-height: 200px; /* ✅ Ensures consistency in height */
 }
 
+/* Game Hover Effect */
 .game:hover {
     transform: scale(1.05);
 }
 
+/* Game Image */
 .game img {
     max-width: 100%;
     border-radius: 10px;
+}
+
+/* Game Title - Ensures No Overlapping */
+.game h3 {
+    white-space: nowrap; /* ✅ Prevents multi-line text */
+    overflow: hidden; /* ✅ Prevents text overflow */
+    text-overflow: ellipsis; /* ✅ Adds "..." if text is too long */
+    max-width: 90%; /* ✅ Ensures text fits within the box */
+    font-size: 14px;
+    margin-top: 10px;
 }
 
 /* Info Box Styling */
@@ -190,9 +208,16 @@ header {
     padding: 5px 10px;
     border-radius: 5px;
 }
-
+@media (max-width: 1024px) {
+    .game {
+        width: calc(33.33% - 20px); /* ✅ Fewer boxes per row on medium screens */
+    }
+}
 /* Responsive Design */
 @media (max-width: 768px) {
+    .game {
+        width: calc(50% - 20px); /* ✅ Two boxes per row on smaller screens */
+    }
     .info-box {
         width: 90%;
         max-width: 95%;
@@ -206,5 +231,10 @@ header {
     .info-content img {
         width: 100%; /* Full width image on mobile */
         max-width: 300px;
+    }
+}
+@media (max-width: 480px) {
+    .game {
+        width: calc(100% - 20px); /* ✅ One box per row on mobile screens */
     }
 }

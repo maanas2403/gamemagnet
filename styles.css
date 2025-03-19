@@ -23,6 +23,15 @@ header {
     padding: 10px;
     gap:5px;
 }
+header2 {
+    z-index:1;
+    background-color: #151212;
+    color: #fff;
+    text-align: center;
+    filter:opacity(0.85);
+    padding: 10px;
+    gap:5px;
+}
 /* Search Bar */
 .search-container {
     width: 100%;  /* ✅ Matches header width */
